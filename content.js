@@ -4,39 +4,32 @@ document.addEventListener('mouseover', handleMouseOver);
 
 
 function handleMouseOver(event) {
-    console.log("Handling mouseover")
-    // Retrieve the API endpoint URL from storage
-    browser.storage.sync.get('apiEndpoint', (result) => {
-      const apiEndpoint =  "http://127.0.0.1:5000/post_endpoint" ; //result.apiEndpoint;
-     
-      const target = event.target;
+    console.log("handling mouseover")
+    const target = event.target;
   
-      if (apiEndpoint) {
-        
+    const textContent = target.textContent;
+    const words = textContent.trim().split(/\s+/); // Split text into words
+    console.log(words)
+    for (const word of words) {
         const range = document.createRange();
         range.selectNode(target);
-    
-        // Get the client rect of the range
-        const rect = range.getBoundingClientRect();
+        const wordRange = range.getRangeAt(0);
+        const wordRect = wordRange.getBoundingClientRect();
 
-        if (event.clientX >= rect.left && event.clientX <= rect.right
-            && event.clientY >= rect.top && event.clientY <= rect.bottom) {
-            const word = range.toString().trim();
-            console.log(word)
-
+        if (wordRect.left <= event.clientX && event.clientX <= wordRect.right) {
             if (isArabicWord(word)) {
-                // Make the API call and proceed with your logic
+            // Now, 'word' contains the specific word you're mousing over
+            // Make the API call and proceed with your logic for the word
                 makeAPICall(word);
-              }
-        } else {
-            console.log("not in the rect")
+                break; // Stop processing after the first word found
+            }
         }
-
-      }
-    });
+    }
+    
   }
 
 function makeAPICall(word) {
+    const apiEndpoint =  "http://127.0.0.1:5000/post_endpoint" ; //result.apiEndpoint;
     const postData = { word };
     console.log(word)
 
