@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+    "name": "Word Tooltip",
+    "version": "1.0",
+    "description": "Show API response as tooltip when hovering over words.",
+    "permissions": ["activeTab", "storage", "http://*/*", "https://*/*"],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
+    },
+    "options_ui": {
+      "page": "options.html",
+      "open_in_tab": true,
+      "options": [
+        {
+          "type": "text",
+          "label": "API Endpoint URL",
+          "id": "apiEndpoint",
+          "default": "http://127.0.0.1:5000"
+        }
+      ]
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "icons": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+  
